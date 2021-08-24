@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -30,24 +28,7 @@ class User(UserMixin, sql_db.Model):
         return f'<User ({self.id}, {self.username})>'
 
 
-class Post(sql_db.Model):
-    __tablename__ = 'posts'
-
-    id = sql_db.Column(sql_db.Integer, primary_key=True, autoincrement=True)
-    author_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey(User.id))
-    created = sql_db.Column(sql_db.DateTime, nullable=False, default=datetime.utcnow)
-    title = sql_db.Column(sql_db.String(64), nullable=False)
-    body = sql_db.Column(sql_db.Text, nullable=False)
-
-    def __repr__(self):
-        return f'<Post ({self.id}, {self.title})>'
-
-
+# 提供一个 user_loader 回调，此回调用于从会话中存储的用户 ID 重新加载用户对象。它应该采用用户的 unicode ID，并返回相应的用户对象
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
-def init_db():
-    sql_db.drop_all()
-    sql_db.create_all()

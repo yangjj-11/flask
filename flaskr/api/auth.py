@@ -2,7 +2,8 @@ from flask import Blueprint, request, redirect, url_for, flash, render_template,
 
 from flask_login import login_user, logout_user
 
-from flaskr.models.user import User, db
+from flaskr.models.auth import User, sql_db
+# from flaskr import sql_db as sql_db1
 
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
@@ -13,21 +14,21 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        error = None
+        msg = None
         if not username:
-            error = 'Username is required.'
+            msg = 'Username is required.'
         elif not password:
-            error = 'Password is required.'
+            msg = 'Password is required.'
         elif User.query.filter_by(username=username).first():
-            error = f'User {username} is already registered.'
-        if not error:
+            msg = f'User {username} is already registered.'
+        if not msg:
             user = User(username=username, password=password)
-            db.session.add(user)
-            db.session.commit()
+            sql_db.session.add(user)
+            sql_db.session.commit()
             flash(f'Register new user {username}.')
             return redirect(url_for('auth.login'))
         else:
-            flash(error)
+            flash(msg)
     return render_template('auth/register.html')
 
 
@@ -36,7 +37,6 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
         user = User.query.filter_by(username=username).first()
         if user and user.verify_password(password):
             login_user(user, remember=True)

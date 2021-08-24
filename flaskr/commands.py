@@ -1,14 +1,16 @@
 import click
 from flask.cli import with_appcontext
 
-from flaskr.models import init_db, User, Post, db
+from flaskr.models.auth import User, sql_db
+from flaskr.models.blog import Post
 
 
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
     """ Initialize database. """
-    init_db()
+    sql_db.drop_all()
+    sql_db.create_all()
     click.echo('Initialized the database.')
 
 
@@ -24,12 +26,12 @@ def generate_fake_data():
     i = 0
     while i < 5:
         u = User(username=fake.user_name(), password='cat')
-        db.session.add(u)
+        sql_db.session.add(u)
         try:
-            db.session.commit()
+            sql_db.session.commit()
             i += 1
         except IntegrityError:
-            db.session.rollback()
+            sql_db.session.rollback()
 
     user_count = User.query.count()
     i = 0
@@ -40,11 +42,11 @@ def generate_fake_data():
             created=fake.past_date(),
             author=User.query.offset(randrange(0, user_count)).first(),
         )
-        db.session.add(p)
+        sql_db.session.add(p)
         try:
-            db.session.commit()
+            sql_db.session.commit()
             i += 1
         except IntegrityError:
-            db.session.rollback()
+            sql_db.session.rollback()
 
     click.echo('Generated 5 fake users and 20 posts.')
