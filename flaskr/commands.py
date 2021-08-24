@@ -5,27 +5,28 @@ from flaskr.models.auth import User, sql_db
 from flaskr.models.blog import Post
 
 
-@click.command('init-db')
+@click.command("init-db")
 @with_appcontext
 def init_db_command():
-    """ Initialize database. """
+    """Initialize database."""
     sql_db.drop_all()
     sql_db.create_all()
-    click.echo('Initialized the database.')
+    click.echo("Initialized the database.")
 
 
-@click.command('fake')
+@click.command("fake")
 @with_appcontext
 def generate_fake_data():
-    """ Generate fake data. """
+    """Generate fake data."""
     from random import randrange
     from faker import Faker
     from sqlalchemy.exc import IntegrityError
+
     fake = Faker()
 
     i = 0
     while i < 5:
-        u = User(username=fake.user_name(), password='cat')
+        u = User(username=fake.user_name(), password="cat")
         sql_db.session.add(u)
         try:
             sql_db.session.commit()
@@ -49,4 +50,4 @@ def generate_fake_data():
         except IntegrityError:
             sql_db.session.rollback()
 
-    click.echo('Generated 5 fake users and 20 posts.')
+    click.echo("Generated 5 fake users and 20 posts.")

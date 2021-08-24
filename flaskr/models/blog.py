@@ -4,7 +4,7 @@ from flaskr.models.auth import User
 
 
 class Post(sql_db.Model):
-    __tablename__ = 'posts'
+    __tablename__ = "posts"
 
     id = sql_db.Column(sql_db.Integer, primary_key=True, autoincrement=True)
     author_id = sql_db.Column(sql_db.Integer, sql_db.ForeignKey(User.id))
@@ -13,4 +13,4 @@ class Post(sql_db.Model):
     body = sql_db.Column(sql_db.Text, nullable=False)
 
     def __repr__(self):
-        return f'<Post ({self.id}, {self.title})>'
+        return f"<Post ({self.id}, {self.title})>"

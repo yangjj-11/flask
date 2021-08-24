@@ -7,7 +7,7 @@ from flask_login import LoginManager
 sql_db = SQLAlchemy()
 migrate = Migrate(db=sql_db)
 login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
+login_manager.login_view = "auth.login"
 
 
 def create_app(conf=None):
@@ -22,10 +22,12 @@ def create_app(conf=None):
 
     from flaskr.api.auth import auth
     from flaskr.api.blog import blog
+
     app.register_blueprint(auth)
     app.register_blueprint(blog)
 
     from flaskr.commands import init_db_command, generate_fake_data
+
     app.cli.add_command(init_db_command)
     app.cli.add_command(generate_fake_data)
     return app

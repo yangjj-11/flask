@@ -4,7 +4,7 @@ from flaskr.models.auth import User
 from flaskr.models.blog import Post
 
 
-app = create_app('development')
+app = create_app("development")
 
 
 @app.shell_context_processor

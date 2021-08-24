@@ -15,7 +15,7 @@ tempdir = tempfile.gettempdir()
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'it is a secret'
+    SECRET_KEY = os.environ.get("SECRET_KEY") or "it is a secret"
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -29,7 +29,7 @@ class DevConfig(Config):
 class TestConfig(Config):
     DEBUG = False
     TESTING = True
-    SERVER_NAME = 'test.flaskr'
+    SERVER_NAME = "test.flaskr"
     SQLALCHEMY_DATABASE_URI = "mysql://root:root@127.0.0.1:3306/flaskr_test"
 
 
@@ -40,8 +40,8 @@ class ProdConfig(Config):
 
 
 config = {
-    'development': DevConfig,
-    'testing': TestConfig,
-    'production': ProdConfig,
-    'default': DevConfig,
+    "development": DevConfig,
+    "testing": TestConfig,
+    "production": ProdConfig,
+    "default": DevConfig,
 }
