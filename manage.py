@@ -3,7 +3,6 @@ from flaskr import sql_db
 from flaskr.models.auth import User
 from flaskr.models.blog import Post
 
-
 app = create_app("development")
 
 

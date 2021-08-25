@@ -11,14 +11,13 @@ login_manager.login_view = "auth.login"
 
 
 def create_app(conf=None):
-    global sql_db, migrate, login_manager
     app = Flask(__name__)
 
     app.config.from_object(config[conf])
 
-    sql_db = sql_db.init_app(app)
-    migrate = migrate.init_app(app)
-    login_manager = login_manager.init_app(app)
+    sql_db.init_app(app)
+    migrate.init_app(app)
+    login_manager.init_app(app)
 
     from flaskr.api.auth import auth
     from flaskr.api.blog import blog
@@ -30,4 +29,8 @@ def create_app(conf=None):
 
     app.cli.add_command(init_db_command)
     app.cli.add_command(generate_fake_data)
+
+    @app.route("/test", methods=["GET"])
+    def test():
+        return {"msg": "ok"}
     return app
