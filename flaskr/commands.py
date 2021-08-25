@@ -5,6 +5,7 @@ from flaskr.models.auth import User, sql_db
 from flaskr.models.blog import Post
 from random import randrange
 from faker import Faker
+
 # from sqlalchemy.exc import IntegrityError
 
 
