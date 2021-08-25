@@ -30,8 +30,4 @@ def create_app(conf=None):
     app.cli.add_command(init_db_command)
     app.cli.add_command(generate_fake_data)
 
-    @app.route("/test", methods=["GET"])
-    def test():
-        return {"msg": "ok"}
-
     return app

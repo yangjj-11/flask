@@ -1,11 +1,11 @@
 import unittest
 
-from flaskr import create_app
+from manage import app
 
 
 class TestApp(unittest.TestCase):
     def setUp(self):
-        self.app = create_app("development").test_client()
+        self.app = app.test_client()
 
     def test_app(self):
         response = self.app.get("/test")
