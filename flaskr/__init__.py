@@ -33,4 +33,5 @@ def create_app(conf=None):
     @app.route("/test", methods=["GET"])
     def test():
         return {"msg": "ok"}
+
     return app
